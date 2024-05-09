@@ -38,11 +38,11 @@ generate_boots <- function(celltype, n) {
 
 get_ave_exp <- function(i, myseurat, samples,myident) {
   meta.data=myseurat@meta.data[samples[,i],]
-  sample <-myseurat@assays$RNA@counts[,samples[,i]]
+  sample <-myseurat@assays$RNA@layers$counts[,samples[,i]]
   SeuratObject<-suppressWarnings(
-    CreateSeuratObject(count=sample,meta.data = meta.data))
+  CreateSeuratObject(count=sample,meta.data = meta.data))
   SeuratObject<-NormalizeData(SeuratObject,verbose = FALSE)
-  ave<-AverageExpression(SeuratObject,group.by = myident,return.seurat = T)[["RNA"]]@data
+  ave<-AverageExpression(SeuratObject,group.by = myident,return.seurat = T)[["RNA"]]@layers$data
   return(ave)
 }
 
